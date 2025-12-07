@@ -18,6 +18,7 @@ const LoadingContainer = styled.div`
   background: ${({ theme }) => theme.desktopBackground};
 `; // TODO: Check type of this
 
+// FYI: Docs to update hte size of the given react95 Component
 const StyledMonitor = styled(Monitor)`
   transform: scale(2);
 `;
@@ -47,7 +48,6 @@ function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
-
     // LLM FLAG: Had ChatGPTy write me this timing function.
     const timer = setInterval(() => {
       setPercent((previousPercent) => {
@@ -56,7 +56,7 @@ function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
           setTimeout(onLoadComplete, 200);
           return 100;
         }
-        const diff = Math.random() * 25 + 25; 
+        const diff = Math.random() * 25 + 25;
         return Math.min(previousPercent + diff, 100);
       });
     }, 400);
