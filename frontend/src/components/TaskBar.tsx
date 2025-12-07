@@ -40,7 +40,7 @@ function Taskbar({ startMenuOpen, onToggleStart, isGameRunning, isGameMinimized,
               active={!isGameMinimized}
               style={{ marginLeft: 8, minWidth: 140, justifyContent: 'flex-start' }}
             >
-              <img src="/icons/tictactoe.ico.png" alt="" width={18} height={18} style={{ marginRight: 8 }} />
+              <img src="/icons/tictactoe.png" alt="" width={18} height={18} style={{ marginRight: 8 }} />
               Tic Tac Toe
             </Button>
           )}
