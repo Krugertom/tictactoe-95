@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DesktopIcon } from './DesktopIcon';
+import { DesktopIcon } from '@components/DesktopIcon';
 
 type DesktopProps = {
   children?: any; // TODO: Look at typing this? ReactNode?

@@ -14,7 +14,7 @@ import {
   Separator,
 } from 'react95';
 import styled from 'styled-components';
-import { TicTacToeBoard } from './TicTacToeBoard';
+import { TicTacToeBoard } from '@components/tic-tac-toe/TicTacToeBoard';
 import {
   createEmptyBoard,
   checkWinner,
@@ -22,7 +22,7 @@ import {
   getNextPlayer,
   type Board,
   type GameResult,
-} from '../../lib/t3GameEngine';
+} from '@lib/t3GameEngine';
 
 type SimpleGameWindowProps = {
   windowState: any;
