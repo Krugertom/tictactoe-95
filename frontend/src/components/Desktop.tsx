@@ -29,7 +29,7 @@ const IconColumn = styled.div`
 
 function Desktop({ children, onOpenGame,}: DesktopProps) {
   const icons = [
-    { id: 'tictactoe', label: 'Tic-Tac-Toe', icon: '/icons/tictactoe.ico.png', onDoubleClick: onOpenGame },
+    { id: 'tictactoe', label: 'Tic-Tac-Toe', icon: '/icons/tictactoe.png', onDoubleClick: onOpenGame },
   ];
 
   return (
