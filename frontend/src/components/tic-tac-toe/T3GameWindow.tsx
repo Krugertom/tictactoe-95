@@ -12,6 +12,12 @@ import {
   MenuList,
   MenuListItem,
   Separator,
+  Table,
+  TableBody,
+  TableDataCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
 } from 'react95';
 import styled from 'styled-components';
 import { T3Board } from '@/components/tic-tac-toe/T3Board';
@@ -312,6 +318,7 @@ export const T3GameWindow = ({
             </>
           )}
         </Toolbar>
+
         <WindowContent style={{ height: 'calc(100% - 32px)' }}>
           <Tabs value={activeTab} onChange={setActiveTab}>
             <Tab value={0}>Play</Tab>
@@ -334,6 +341,30 @@ export const T3GameWindow = ({
                   />
                 </BoardWrapper>
                 <StatusText>{getStatusText()}</StatusText>
+              </GameContent>
+            )}
+            {activeTab === 1 && (
+              <GameContent>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableHeadCell>Time</TableHeadCell>
+                      <TableHeadCell>Turn</TableHeadCell>
+                      <TableHeadCell>Outcome</TableHeadCell>
+                      <TableHeadCell />
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      <TableDataCell>12/7/2025 3:00 PM</TableDataCell>
+                      <TableDataCell>X</TableDataCell>
+                      <TableDataCell>In Progress</TableDataCell>
+                      <TableDataCell style={{ textAlign: 'right' }}>
+                        <Button size="sm">Load Game</Button>
+                      </TableDataCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </GameContent>
             )}
           </TabBody>
