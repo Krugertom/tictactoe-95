@@ -2,7 +2,7 @@ import type React from 'react';
 import { useState, useEffect } from 'react';
 import { Window, WindowContent, WindowHeader, Button } from 'react95';
 import styled from 'styled-components';
-import TicTacToeBoard from './TicTacToeBoard';
+import { TicTacToeBoard } from './TicTacToeBoard';
 import {
   createEmptyBoard,
   checkWinner,
@@ -92,13 +92,13 @@ const StatusText = styled.p`
   text-align: center;
 `;
 
-function T3GameWindow({
+export const T3GameWindow = ({
   windowState,
   onMinimize,
   onMaximize,
   onClose,
   onPositionChange,
-}: SimpleGameWindowProps) {
+}: SimpleGameWindowProps) => {
   const [board, setBoard] = useState<Board>(createEmptyBoard());
   const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
   const [winner, setWinner] = useState<GameResult>(null);
@@ -210,6 +210,4 @@ function T3GameWindow({
       </Window>
     </WindowShell>
   );
-}
-
-export default T3GameWindow;
+};

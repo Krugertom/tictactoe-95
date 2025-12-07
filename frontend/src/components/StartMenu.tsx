@@ -17,7 +17,7 @@ const MenuContainer = styled.div`
   z-index: 20;
 `;
 
-function StartMenu({ open, onClose }: StartMenuProps) {
+export const StartMenu = ({ open, onClose }: StartMenuProps) => {
   if (!open) return null;
 
   return (
@@ -33,6 +33,4 @@ function StartMenu({ open, onClose }: StartMenuProps) {
       </div>
     </MenuContainer>
   );
-}
-
-export default StartMenu;
+};

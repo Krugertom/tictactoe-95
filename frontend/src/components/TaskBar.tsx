@@ -22,9 +22,7 @@ const TaskbarContainer = styled.div`
   height: ${TASKBAR_HEIGHT}px;
 `;
 
-
-function Taskbar({ startMenuOpen, onToggleStart, isGameRunning, isGameMinimized, onToggleGameWindow}: TaskbarProps) {
-
+export const Taskbar = ({ startMenuOpen, onToggleStart, isGameRunning, isGameMinimized, onToggleGameWindow}: TaskbarProps) => {
   return (
     <TaskbarContainer>
       <AppBar style={{ position: 'static', width: '100%' }}>
@@ -49,6 +47,4 @@ function Taskbar({ startMenuOpen, onToggleStart, isGameRunning, isGameMinimized,
       </AppBar>
     </TaskbarContainer>
   );
-}
-
-export default Taskbar;
+};

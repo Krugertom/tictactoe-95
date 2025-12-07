@@ -44,7 +44,7 @@ const ProgressBarContainer = styled.div`
   width: 50vw;
 `;
 
-function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
+export const LoadingScreen = ({ onLoadComplete }: LoadingScreenProps) => {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
@@ -78,6 +78,4 @@ function LoadingScreen({ onLoadComplete }: LoadingScreenProps) {
       </ProgressBarContainer>
     </LoadingContainer>
   );
-}
-
-export default LoadingScreen;
+};

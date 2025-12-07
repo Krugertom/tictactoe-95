@@ -28,13 +28,11 @@ const IconLabel = styled.span`
   font-size: 12px;
 `;
 
-function DesktopIcon({ label, iconSrc, onDoubleClick }: DesktopIconProps) {
+export const DesktopIcon = ({ label, iconSrc, onDoubleClick }: DesktopIconProps) => {
   return (
     <IconWrapper onDoubleClick={onDoubleClick} title={label}>
       <IconImage src={iconSrc} alt={label} draggable={false} />
       <IconLabel>{label}</IconLabel>
     </IconWrapper>
   );
-}
-
-export default DesktopIcon;
+};

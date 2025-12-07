@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import StartMenu from './components/StartMenu';
-import LoadingScreen from './components/LoadingScreen';
-import Desktop from './components/Desktop';
-import Taskbar from './components/TaskBar';
-import T3GameWindow from './components/T3GameWindow';
+import { StartMenu } from './components/StartMenu';
+import { LoadingScreen } from './components/LoadingScreen';
+import { Desktop } from './components/Desktop';
+import { Taskbar } from './components/TaskBar';
+import { T3GameWindow } from './components/T3GameWindow';
 
 interface WindowState {
   isOpen: boolean;
@@ -12,7 +12,7 @@ interface WindowState {
   position: { x: number; y: number };
 }
 
-function App() {
+export const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
   const [windowState, setWindowState] = useState<WindowState>({
@@ -69,6 +69,4 @@ function App() {
       />
     </div>
   );
-}
-
-export default App;
+};

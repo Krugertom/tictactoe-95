@@ -67,11 +67,11 @@ const OSymbol = styled.span`
   line-height: 1;
 `;
 
-function TicTacToeBoard({ board, disabled, onSelect, isMaximized = false }: TicTacToeBoardProps) {
+export const TicTacToeBoard = ({ board, disabled, onSelect, isMaximized = false }: TicTacToeBoardProps) => {
   return (
     <BoardContainer>
       <Grid $isMaximized={isMaximized}>
-        {board.map((cell, index) => ( 
+        {board.map((cell, index) => (
           <Cell
             key={index}
             $disabled={disabled || false}
@@ -91,6 +91,4 @@ function TicTacToeBoard({ board, disabled, onSelect, isMaximized = false }: TicT
       </Grid>
     </BoardContainer>
   );
-}
-
-export default TicTacToeBoard;
+};

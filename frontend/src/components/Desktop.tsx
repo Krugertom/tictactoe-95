@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import DesktopIcon from './DesktopIcon';
+import { DesktopIcon } from './DesktopIcon';
 
 type DesktopProps = {
   children?: any; // TODO: Look at typing this? ReactNode?
@@ -27,7 +27,7 @@ const IconColumn = styled.div`
   gap: 18px;
 `;
 
-function Desktop({ children, onOpenGame,}: DesktopProps) {
+export const Desktop = ({ children, onOpenGame,}: DesktopProps) => {
   const icons = [
     { id: 'tictactoe', label: 'Tic-Tac-Toe', icon: '/icons/tictactoe.png', onDoubleClick: onOpenGame },
   ];
@@ -47,6 +47,4 @@ function Desktop({ children, onOpenGame,}: DesktopProps) {
       {children}
     </DesktopShell>
   );
-}
-
-export default Desktop;
+};
