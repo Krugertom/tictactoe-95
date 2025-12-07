@@ -1,6 +1,18 @@
 import type React from 'react';
-import { useState, useEffect } from 'react';
-import { Window, WindowContent, WindowHeader, Button } from 'react95';
+import { useState, useRef } from 'react';
+import {
+  Window,
+  WindowContent,
+  WindowHeader,
+  Button,
+  Toolbar,
+  Tabs,
+  Tab,
+  TabBody,
+  MenuList,
+  MenuListItem,
+  Separator,
+} from 'react95';
 import styled from 'styled-components';
 import { TicTacToeBoard } from './TicTacToeBoard';
 import {
@@ -10,7 +22,7 @@ import {
   getNextPlayer,
   type Board,
   type GameResult,
-} from '../lib/t3GameEngine';
+} from '../../lib/t3GameEngine';
 
 type SimpleGameWindowProps = {
   windowState: any;
@@ -76,7 +88,6 @@ const GameContent = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 8px;
 `;
 
 const BoardWrapper = styled.div`
@@ -84,12 +95,30 @@ const BoardWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 16px;
 `;
 
 const StatusText = styled.p`
-  margin: 8px 0 0;
+  margin: 0 0 8px;
   font-size: 11px;
   text-align: center;
+`;
+
+const DropdownMenu = styled.div<{ $left: number }>`
+  position: absolute;
+  left: ${(props) => props.$left}px;
+  top: 100%;
+  z-index: 1000;
+  min-width: 160px;
+`;
+
+const MenuOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
 `;
 
 export const T3GameWindow = ({
@@ -102,6 +131,13 @@ export const T3GameWindow = ({
   const [board, setBoard] = useState<Board>(createEmptyBoard());
   const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
   const [winner, setWinner] = useState<GameResult>(null);
+
+  const [activeTab, setActiveTab] = useState(0);
+  const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'help' | null>(null);
+
+  const fileButtonRef = useRef<HTMLButtonElement>(null);
+  const editButtonRef = useRef<HTMLButtonElement>(null);
+  const helpButtonRef = useRef<HTMLButtonElement>(null);
 
   const resetGame = () => {
     setBoard(createEmptyBoard());
@@ -194,18 +230,113 @@ export const T3GameWindow = ({
           </TitleBar>
         </WindowHeader>
 
+        <Toolbar style={{ position: 'relative' }}>
+          <Button
+            ref={fileButtonRef}
+            variant="menu"
+            size="sm"
+            active={openMenu === 'file'}
+            onClick={() => setOpenMenu(openMenu === 'file' ? null : 'file')}
+          >
+            File
+          </Button>
+          <Button
+            ref={editButtonRef}
+            variant="menu"
+            size="sm"
+            active={openMenu === 'edit'}
+            onClick={() => setOpenMenu(openMenu === 'edit' ? null : 'edit')}
+          >
+            Edit
+          </Button>
+          <Button
+            ref={helpButtonRef}
+            variant="menu"
+            size="sm"
+            active={openMenu === 'help'}
+            onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}
+          >
+            Help
+          </Button>
+
+          {openMenu === 'file' && (
+            <>
+              <MenuOverlay onClick={() => setOpenMenu(null)} />
+              <DropdownMenu $left={4}>
+                <MenuList>
+                  <MenuListItem
+                    onClick={() => {
+                      resetGame();
+                      setOpenMenu(null);
+                    }}
+                  >
+                    New Game
+                  </MenuListItem>
+                  <MenuListItem disabled>Save Game</MenuListItem>
+                  <MenuListItem disabled>Load Game</MenuListItem>
+                </MenuList>
+              </DropdownMenu>
+            </>
+          )}
+
+          {openMenu === 'edit' && (
+            <>
+              <MenuOverlay onClick={() => setOpenMenu(null)} />
+              <DropdownMenu
+                $left={fileButtonRef.current ? fileButtonRef.current.offsetWidth + 4 : 50}
+              >
+                <MenuList>
+                  <MenuListItem disabled>Suggest Next Move</MenuListItem>
+                  <MenuListItem disabled>Restart Game</MenuListItem>
+                </MenuList>
+              </DropdownMenu>
+            </>
+          )}
+
+          {openMenu === 'help' && (
+            <>
+              <MenuOverlay onClick={() => setOpenMenu(null)} />
+              <DropdownMenu
+                $left={
+                  (fileButtonRef.current?.offsetWidth || 0) +
+                  (editButtonRef.current?.offsetWidth || 0) +
+                  8
+                }
+              >
+                <MenuList>
+                  <MenuListItem disabled>Help Topics</MenuListItem>
+                  <Separator />
+                  <MenuListItem disabled>About T3 Game</MenuListItem>
+                </MenuList>
+              </DropdownMenu>
+            </>
+          )}
+        </Toolbar>
         <WindowContent style={{ height: 'calc(100% - 32px)' }}>
-          <GameContent>
-            <BoardWrapper>
-              <TicTacToeBoard
-                board={board}
-                disabled={!!winner}
-                onSelect={handleCellSelect}
-                isMaximized={windowState.isMaximized}
-              />
-            </BoardWrapper>
-            <StatusText>{getStatusText()}</StatusText>
-          </GameContent>
+          <Tabs value={activeTab} onChange={setActiveTab}>
+            <Tab value={0}>Play</Tab>
+            <Tab value={1}>All Games</Tab>
+          </Tabs>
+          <TabBody
+            style={{
+              height: windowState.isMaximized ? 'calc(100vh - 200px)' : 350,
+              padding: '8px',
+            }}
+          >
+            {activeTab === 0 && (
+              <GameContent>
+                <BoardWrapper>
+                  <TicTacToeBoard
+                    board={board}
+                    disabled={!!winner}
+                    onSelect={handleCellSelect}
+                    isMaximized={windowState.isMaximized}
+                  />
+                </BoardWrapper>
+                <StatusText>{getStatusText()}</StatusText>
+              </GameContent>
+            )}
+          </TabBody>
         </WindowContent>
       </Window>
     </WindowShell>

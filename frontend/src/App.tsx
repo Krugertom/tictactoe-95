@@ -3,7 +3,7 @@ import { StartMenu } from './components/StartMenu';
 import { LoadingScreen } from './components/LoadingScreen';
 import { Desktop } from './components/Desktop';
 import { Taskbar } from './components/TaskBar';
-import { T3GameWindow } from './components/T3GameWindow';
+import { T3GameWindow } from './components/tic-tac-toe/T3GameWindow';
 
 interface WindowState {
   isOpen: boolean;
