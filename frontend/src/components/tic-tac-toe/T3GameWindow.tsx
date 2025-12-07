@@ -29,6 +29,7 @@ import {
   type Board,
   type GameResult,
 } from '@lib/t3GameEngine';
+import { T3Table } from './T3Table';
 
 type SimpleGameWindowProps = {
   windowState: any;
@@ -345,26 +346,7 @@ export const T3GameWindow = ({
             )}
             {activeTab === 1 && (
               <GameContent>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableHeadCell>Time</TableHeadCell>
-                      <TableHeadCell>Turn</TableHeadCell>
-                      <TableHeadCell>Outcome</TableHeadCell>
-                      <TableHeadCell />
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow>
-                      <TableDataCell>12/7/2025 3:00 PM</TableDataCell>
-                      <TableDataCell>X</TableDataCell>
-                      <TableDataCell>In Progress</TableDataCell>
-                      <TableDataCell style={{ textAlign: 'right' }}>
-                        <Button size="sm">Load Game</Button>
-                      </TableDataCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+                <T3Table />
               </GameContent>
             )}
           </TabBody>
