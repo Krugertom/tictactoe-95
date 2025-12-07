@@ -14,7 +14,7 @@ import {
   Separator,
 } from 'react95';
 import styled from 'styled-components';
-import { TicTacToeBoard } from '@components/tic-tac-toe/TicTacToeBoard';
+import { T3Board } from '@/components/tic-tac-toe/T3Board';
 import {
   createEmptyBoard,
   checkWinner,
@@ -326,7 +326,7 @@ export const T3GameWindow = ({
             {activeTab === 0 && (
               <GameContent>
                 <BoardWrapper>
-                  <TicTacToeBoard
+                  <T3Board
                     board={board}
                     disabled={!!winner}
                     onSelect={handleCellSelect}

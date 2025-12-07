@@ -67,7 +67,7 @@ const OSymbol = styled.span`
   line-height: 1;
 `;
 
-export const TicTacToeBoard = ({ board, disabled, onSelect, isMaximized = false }: TicTacToeBoardProps) => {
+export const T3Board = ({ board, disabled, onSelect, isMaximized = false }: TicTacToeBoardProps) => {
   return (
     <BoardContainer>
       <Grid $isMaximized={isMaximized}>
