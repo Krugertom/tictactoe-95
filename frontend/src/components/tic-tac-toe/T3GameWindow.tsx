@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   Window,
   WindowContent,
@@ -30,6 +30,7 @@ import {
   type GameResult,
 } from '@lib/t3GameEngine';
 import { T3Table } from './T3Table';
+import { gameSessionService } from '@api';
 
 type SimpleGameWindowProps = {
   windowState: any;
@@ -138,6 +139,7 @@ export const T3GameWindow = ({
   const [board, setBoard] = useState<Board>(createEmptyBoard());
   const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
   const [winner, setWinner] = useState<GameResult>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   const [activeTab, setActiveTab] = useState(0);
   const [openMenu, setOpenMenu] = useState<'file' | 'edit' | 'help' | null>(null);
@@ -146,14 +148,44 @@ export const T3GameWindow = ({
   const editButtonRef = useRef<HTMLButtonElement>(null);
   const helpButtonRef = useRef<HTMLButtonElement>(null);
 
-  const resetGame = () => {
+  useEffect(() => {
+    const createNewSession = async () => {
+      try {
+        const session = await gameSessionService.createSession({
+          board: createEmptyBoard(),
+          currentPlayer: 'X',
+          status: 'in_progress',
+          winner: null,
+        });
+        setSessionId(session._id || null);
+      } catch (error) {
+        console.error('Failed to create game session:', error);
+      }
+    };
+
+    createNewSession();
+  }, []);
+
+  const resetGame = async () => {
     setBoard(createEmptyBoard());
     setCurrentPlayer('X');
     setWinner(null);
+
+    try {
+      const session = await gameSessionService.createSession({
+        board: createEmptyBoard(),
+        currentPlayer: 'X',
+        status: 'in_progress',
+        winner: null,
+      });
+      setSessionId(session._id || null);
+    } catch (error) {
+      console.error('Failed to create new game session:', error);
+    }
   };
 
-  const handleCellSelect = (index: number) => {
-    if (winner) return;
+  const handleCellSelect = async (index: number) => {
+    if (winner || !sessionId) return;
 
     const newBoard = makeMove(board, index, currentPlayer);
     if (!newBoard) return;
@@ -161,10 +193,23 @@ export const T3GameWindow = ({
     setBoard(newBoard);
 
     const gameWinner = checkWinner(newBoard);
+    const nextPlayer = gameWinner ? currentPlayer : getNextPlayer(currentPlayer);
+
     if (gameWinner) {
       setWinner(gameWinner);
     } else {
-      setCurrentPlayer(getNextPlayer(currentPlayer));
+      setCurrentPlayer(nextPlayer);
+    }
+
+    try {
+      await gameSessionService.updateSession(sessionId, {
+        board: newBoard,
+        currentPlayer: nextPlayer,
+        status: gameWinner ? 'completed' : 'in_progress',
+        winner: gameWinner,
+      });
+    } catch (error) {
+      console.error('Failed to update game session:', error);
     }
   };
 
