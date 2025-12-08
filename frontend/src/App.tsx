@@ -5,6 +5,7 @@ import { Desktop } from '@components/Desktop';
 import { Taskbar } from '@components/TaskBar';
 import { T3GameWindow } from '@components/tic-tac-toe/T3GameWindow';
 import { RecycleBinWindow } from '@/components/recycling-bin/RecycleBinWindow';
+import { AboutTomWindow } from '@components/about-tom/AboutTomWindow';
 
 interface WindowState {
   isOpen: boolean;
@@ -36,6 +37,12 @@ export const App = () => {
     isMaximized: false,
     position: { x: 48, y: 72 },
   });
+  const [aboutTomWindow, setAboutTomWindow] = useState<WindowState>({
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    position: { x: 180, y: 120 },
+  });
 
   const toggleStartMenu = () => setStartMenuOpen((prev) => !prev);
   const toggleTicTacToe = () => {
@@ -46,6 +53,10 @@ export const App = () => {
     openWindow(setRecycleBinWindow);
     setStartMenuOpen(false);
   };
+  const openAboutTom = () => {
+    openWindow(setAboutTomWindow);
+    setStartMenuOpen(false);
+  };
 
   if (isLoading) {
     return <LoadingScreen onLoadComplete={() => setIsLoading(false)} />;
@@ -53,7 +64,11 @@ export const App = () => {
 
   return (
     <div style={{ height: '100%', position: 'relative', overflow: 'hidden' }}>
-      <Desktop onOpenGame={toggleTicTacToe} onOpenRecycleBin={openRecycleBin}>
+      <Desktop
+        onOpenGame={toggleTicTacToe}
+        onOpenRecycleBin={openRecycleBin}
+        onOpenAboutTom={openAboutTom}
+      >
         {recycleBinWindow.isOpen && (
           <div style={{ display: recycleBinWindow.isMinimized ? 'none' : 'block' }}>
             <RecycleBinWindow
@@ -65,6 +80,20 @@ export const App = () => {
               onClose={() => setRecycleBinWindow((prev) => ({ ...prev, isOpen: false }))}
               onPositionChange={(position: { x: number; y: number }) =>
                 setRecycleBinWindow((prev) => ({ ...prev, position }))
+              }
+            />
+          </div>
+        )}
+
+        {aboutTomWindow.isOpen && (
+          <div style={{ display: aboutTomWindow.isMinimized ? 'none' : 'block' }}>
+            <AboutTomWindow
+              windowState={aboutTomWindow}
+              onMinimize={() => setAboutTomWindow((prev) => ({ ...prev, isMinimized: true }))}
+              onMaximize={() => setAboutTomWindow((prev) => ({ ...prev, isMaximized: !prev.isMaximized }))}
+              onClose={() => setAboutTomWindow((prev) => ({ ...prev, isOpen: false }))}
+              onPositionChange={(position: { x: number; y: number }) =>
+                setAboutTomWindow((prev) => ({ ...prev, position }))
               }
             />
           </div>
@@ -104,6 +133,15 @@ export const App = () => {
         isRecycleMinimized={recycleBinWindow.isMinimized}
         onToggleRecycleWindow={() =>
           setRecycleBinWindow((prev) => ({
+            ...prev,
+            isMinimized: !prev.isMinimized,
+            isOpen: true,
+          }))
+        }
+        isAboutOpen={aboutTomWindow.isOpen}
+        isAboutMinimized={aboutTomWindow.isMinimized}
+        onToggleAboutWindow={() =>
+          setAboutTomWindow((prev) => ({
             ...prev,
             isMinimized: !prev.isMinimized,
             isOpen: true,

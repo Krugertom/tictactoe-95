@@ -5,6 +5,7 @@ type DesktopProps = {
   children?: any; // TODO: Look at typing this? ReactNode?
   onOpenGame: () => void;
   onOpenRecycleBin: () => void;
+  onOpenAboutTom: () => void;
 };
 
 const TASKBAR_HEIGHT = 48;
@@ -28,10 +29,11 @@ const IconColumn = styled.div`
   gap: 18px;
 `;
 
-export const Desktop = ({ children, onOpenGame, onOpenRecycleBin }: DesktopProps) => {
+export const Desktop = ({ children, onOpenGame, onOpenRecycleBin, onOpenAboutTom }: DesktopProps) => {
   const icons = [
     { id: 'recycle-bin', label: 'Recycle Bin', icon: '/icons/recycle.ico', onDoubleClick: onOpenRecycleBin },
     { id: 'tictactoe', label: 'Tic-Tac-Toe', icon: '/icons/tictactoe.png', onDoubleClick: onOpenGame },
+    { id: 'about-tom', label: 'about_tom.txt', icon: '/icons/file_1.ico', onDoubleClick: onOpenAboutTom },
   ];
 
   return (

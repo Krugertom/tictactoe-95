@@ -1,4 +1,3 @@
-// import { useEffect, useState } from 'react';
 import { AppBar, Button, Toolbar } from 'react95';
 import styled from 'styled-components';
 
@@ -11,6 +10,9 @@ type TaskbarProps = {
   isRecycleOpen: boolean;
   isRecycleMinimized: boolean;
   onToggleRecycleWindow: () => void;
+  isAboutOpen: boolean;
+  isAboutMinimized: boolean;
+  onToggleAboutWindow: () => void;
 };
 
 const TASKBAR_HEIGHT = 48;
@@ -34,6 +36,9 @@ export const Taskbar = ({
   isRecycleOpen,
   isRecycleMinimized,
   onToggleRecycleWindow,
+  isAboutOpen,
+  isAboutMinimized,
+  onToggleAboutWindow,
 }: TaskbarProps) => {
   return (
     <TaskbarContainer>
@@ -52,6 +57,17 @@ export const Taskbar = ({
             >
               <img src="/icons/recycle.ico" alt="" width={18} height={18} style={{ marginRight: 8 }} />
               Recycle Bin
+            </Button>
+          )}
+
+          {isAboutOpen && (
+            <Button
+              onClick={onToggleAboutWindow}
+              active={!isAboutMinimized}
+              style={{ marginLeft: 8, minWidth: 140, justifyContent: 'flex-start' }}
+            >
+              <img src="/icons/file_1.ico" alt="" width={18} height={18} style={{ marginRight: 8 }} />
+              About_Tom.txt
             </Button>
           )}
 
