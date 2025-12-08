@@ -1,7 +1,7 @@
 
 import { Router, Request, Response } from 'express';
-import { GameSessionModel } from '../db/models/GameSessionModel';
-import { logger } from '../logging/logger';
+import { GameSessionModel } from '@/db/models/GameSessionModel';
+import { logger } from '@/logging/logger';
 
 const router = Router();
 

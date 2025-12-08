@@ -1,5 +1,5 @@
 import pino from 'pino';
-import { settings } from '../settings';
+import { settings } from '@/settings';
 
 const usePrettyLogs = settings.app.nodeEnv !== 'production';
 

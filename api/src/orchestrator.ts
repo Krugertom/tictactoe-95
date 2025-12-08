@@ -1,8 +1,8 @@
 import { Server } from 'http';
-import app from './app';
-import { settings } from './settings';
-import { logger } from './logging/logger';
-import { DatabaseConnection } from './db/connection';
+import app from '@/app';
+import { settings } from '@/settings';
+import { logger } from '@/logging/logger';
+import { DatabaseConnection } from '@/db/connection';
 
 export class Orchestrator {
     private server?: Server;

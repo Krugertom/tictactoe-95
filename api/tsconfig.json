@@ -9,7 +9,16 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@/db/*": ["db/*"],
+      "@/schemas/*": ["db/schemas/*"],
+      "@/routes/*": ["routes/*"],
+      "@/settings/*": ["settings/*"],
+      "@/logging/*": ["logging/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

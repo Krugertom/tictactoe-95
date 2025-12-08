@@ -1,5 +1,5 @@
-import { Orchestrator } from './orchestrator';
-import { logger } from './logging/logger';
+import { Orchestrator } from '@/orchestrator';
+import { logger } from '@/logging/logger';
 
 
 const orchestrator = new Orchestrator();

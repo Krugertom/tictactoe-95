@@ -43,7 +43,7 @@ export const LoadingScreen = ({ onLoadComplete }: LoadingScreenProps) => {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
-    // LLM FLAG: Had ChatGPTy write me this timing function.
+    // LLM NOTE: Had ChatGPTy write me this timing function.
     const timer = setInterval(() => {
       setPercent((previousPercent) => {
         if (previousPercent >= 100) {

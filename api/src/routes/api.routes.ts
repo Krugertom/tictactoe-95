@@ -1,6 +1,6 @@
 import express from 'express';
-import { registerGameSessionRoutes } from './gameSession.routes';
-import { settings } from '../settings'
+import { registerGameSessionRoutes } from '@/routes/gameSession.routes';
+import { settings } from '@/settings';
 
 export function registerRoutes(app: express.Express): void {
     const sessionRoutes = registerGameSessionRoutes();
