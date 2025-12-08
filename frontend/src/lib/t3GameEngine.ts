@@ -17,7 +17,6 @@ export const checkWinner = (board: Board): GameResult => {
     [2, 4, 6],
   ];
 
-  // Loop through each winning line and check if all three positions match.
   for (const line of winningLines) {
 
     const [i, j, k] = line;

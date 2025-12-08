@@ -1,9 +1,6 @@
-import type React from 'react';
 import { useState, useRef, useEffect, useMemo } from 'react';
 import {
-  Window,
   WindowContent,
-  WindowHeader,
   Button,
   Toolbar,
   Tabs,
@@ -14,6 +11,7 @@ import {
   Separator,
 } from 'react95';
 import styled from 'styled-components';
+import { DesktopWindow } from '@/components/shared/DesktopWindow';
 import { T3Board } from '@/components/tic-tac-toe/T3Board';
 import {
   createEmptyBoard,
@@ -27,64 +25,15 @@ import { T3Table } from './T3Table';
 import { gameSessionService, type GameSession } from '@api';
 
 type SimpleGameWindowProps = {
-  windowState: any;
+  windowState: {
+    position: { x: number; y: number };
+    isMaximized: boolean;
+  };
   onMinimize: () => void;
   onMaximize: () => void;
   onClose: () => void;
-  onPositionChange: any;
+  onPositionChange: (position: { x: number; y: number }) => void;
 };
-
-const TASKBAR_HEIGHT = 48;
-
-const WindowShell = styled.div<{ $x: number; $y: number; $isMaximized: boolean }>`
-  position: absolute;
-  left: ${({ $isMaximized, $x }) => ($isMaximized ? 0 : $x)}px;
-  top: ${({ $isMaximized, $y }) => ($isMaximized ? 0 : $y)}px;
-  width: ${({ $isMaximized }) => ($isMaximized ? '100vw' : '550px')};
-  height: ${({ $isMaximized }) =>
-    $isMaximized ? `calc(100vh - ${TASKBAR_HEIGHT}px)` : '550px'};
-  z-index: 10;
-`;
-
-const TitleBar = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  cursor: move;
-`;
-
-const CloseIcon = styled.span`
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  margin-left: -1px;
-  margin-top: -1px;
-  transform: rotateZ(45deg);
-  position: relative;
-
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-    background: #000000;
-  }
-
-  &:before {
-    height: 100%;
-    width: 3px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  &:after {
-    height: 3px;
-    width: 100%;
-    left: 0px;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-`;
 
 const GameContent = styled.div`
   display: flex;
@@ -121,28 +70,6 @@ const MenuOverlay = styled.div`
   right: 0;
   bottom: 0;
   z-index: 999;
-`;
-
-const TitleBarLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-`;
-
-const TitleBarRight = styled.div`
-  display: flex;
-  gap: 4px;
-`;
-
-const ButtonText = styled.span`
-  font-weight: 700;
-  font-size: 16px;
-`;
-
-const StyledWindow = styled(Window)`
-  width: 100%;
-  height: 100%;
-  position: relative;
 `;
 
 const StyledToolbar = styled(Toolbar)`
@@ -268,173 +195,129 @@ export const T3GameWindow = ({
     onClose();
   };
 
-  const handleDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (windowState.isMaximized) return;
-
-    const startX = event.clientX;
-    const startY = event.clientY;
-    const initialX = windowState.position.x;
-    const initialY = windowState.position.y;
-
-    const handleMove = (moveEvent: MouseEvent) => {
-      const nextX = initialX + (moveEvent.clientX - startX);
-      const nextY = initialY + (moveEvent.clientY - startY);
-      onPositionChange({ x: nextX, y: nextY });
-    };
-
-    const handleUp = () => {
-      window.removeEventListener('mousemove', handleMove);
-      window.removeEventListener('mouseup', handleUp);
-    };
-
-    window.addEventListener('mousemove', handleMove);
-    window.addEventListener('mouseup', handleUp);
-  };
-
-  // NOTE: Pattern here for window management taken from react95 styled examples
   return (
-    <WindowShell
-      $x={windowState.position.x}
-      $y={windowState.position.y}
-      $isMaximized={windowState.isMaximized}
+    <DesktopWindow
+      title="Tic-Tac-Toe"
+      iconSrc="/icons/tictactoe.ico.png"
+      windowState={windowState}
+      onPositionChange={onPositionChange}
+      onMinimize={onMinimize}
+      onMaximize={onMaximize}
+      onClose={handleClose}
     >
-      <StyledWindow>
-        <WindowHeader>
-          <TitleBar onMouseDown={handleDragStart}>
-            <TitleBarLeft>
-              <img src="/icons/tictactoe.ico.png" alt="" width={16} height={16} />
-              <span>Tic-Tac-Toe</span>
-            </TitleBarLeft>
-            <TitleBarRight>
-              <Button size="sm" onClick={onMinimize}>
-                <ButtonText>_</ButtonText>
-              </Button>
-              <Button size="sm" onClick={onMaximize}>
-                <ButtonText>□</ButtonText>
-              </Button>
-              <Button size="sm" onClick={handleClose}>
-                <CloseIcon />
-              </Button>
-            </TitleBarRight>
-          </TitleBar>
-        </WindowHeader>
+      <StyledToolbar>
+        <Button
+          ref={fileButtonRef}
+          variant="menu"
+          size="sm"
+          active={openMenu === 'file'}
+          onClick={() => setOpenMenu(openMenu === 'file' ? null : 'file')}
+        >
+          File
+        </Button>
+        <Button
+          ref={editButtonRef}
+          variant="menu"
+          size="sm"
+          active={openMenu === 'edit'}
+          onClick={() => setOpenMenu(openMenu === 'edit' ? null : 'edit')}
+        >
+          Edit
+        </Button>
+        <Button
+          ref={helpButtonRef}
+          variant="menu"
+          size="sm"
+          active={openMenu === 'help'}
+          onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}
+        >
+          Help
+        </Button>
 
-        <StyledToolbar>
-          <Button
-            ref={fileButtonRef}
-            variant="menu"
-            size="sm"
-            active={openMenu === 'file'}
-            onClick={() => setOpenMenu(openMenu === 'file' ? null : 'file')}
-          >
-            File
-          </Button>
-          <Button
-            ref={editButtonRef}
-            variant="menu"
-            size="sm"
-            active={openMenu === 'edit'}
-            onClick={() => setOpenMenu(openMenu === 'edit' ? null : 'edit')}
-          >
-            Edit
-          </Button>
-          <Button
-            ref={helpButtonRef}
-            variant="menu"
-            size="sm"
-            active={openMenu === 'help'}
-            onClick={() => setOpenMenu(openMenu === 'help' ? null : 'help')}
-          >
-            Help
-          </Button>
+        {openMenu === 'file' && (
+          <>
+            <MenuOverlay onClick={() => setOpenMenu(null)} />
+            <DropdownMenu $left={4}>
+              <MenuList>
+                <MenuListItem
+                  onClick={() => {
+                    resetGame();
+                    setOpenMenu(null);
+                  }}
+                >
+                  New Game
+                </MenuListItem>
+                <MenuListItem
+                  onClick={() => {
+                    setActiveTab(1);
+                    setOpenMenu(null);
+                  }}
+                >
+                  Load Game
+                </MenuListItem>
+              </MenuList>
+            </DropdownMenu>
+          </>
+        )}
 
-          {openMenu === 'file' && (
-            <>
-              <MenuOverlay onClick={() => setOpenMenu(null)} />
-              <DropdownMenu $left={4}>
-                <MenuList>
-                  <MenuListItem
-                    onClick={() => {
-                      resetGame();
-                      setOpenMenu(null);
-                    }}
-                  >
-                    New Game
-                  </MenuListItem>
-                  <MenuListItem
-                    onClick={() => {
-                      setActiveTab(1);
-                      setOpenMenu(null);
-                    }}
-                  >
-                    Load Game
-                  </MenuListItem>
-                </MenuList>
-              </DropdownMenu>
-            </>
+        {openMenu === 'edit' && (
+          <>
+            <MenuOverlay onClick={() => setOpenMenu(null)} />
+            <DropdownMenu $left={fileButtonRef.current ? fileButtonRef.current.offsetWidth + 4 : 50}>
+              <MenuList>
+                <MenuListItem disabled>Suggest Next Move</MenuListItem>
+                <MenuListItem disabled>Restart Game</MenuListItem>
+              </MenuList>
+            </DropdownMenu>
+          </>
+        )}
+
+        {openMenu === 'help' && (
+          <>
+            <MenuOverlay onClick={() => setOpenMenu(null)} />
+            <DropdownMenu
+              $left={
+                (fileButtonRef.current?.offsetWidth || 0) +
+                (editButtonRef.current?.offsetWidth || 0) +
+                8
+              }
+            >
+              <MenuList>
+                <MenuListItem disabled>Help Topics</MenuListItem>
+                <Separator />
+                <MenuListItem disabled>About T3 Game</MenuListItem>
+              </MenuList>
+            </DropdownMenu>
+          </>
+        )}
+      </StyledToolbar>
+
+      <StyledWindowContent>
+        <Tabs value={activeTab} onChange={setActiveTab}>
+          <Tab value={0}>Play</Tab>
+          <Tab value={1}>All Games</Tab>
+        </Tabs>
+        <TabBody style={tabBodyStyle}>
+          {activeTab === 0 && (
+            <GameContent>
+              <BoardWrapper>
+                <T3Board
+                  board={board}
+                  disabled={!!winner}
+                  onSelect={handleCellSelect}
+                  isMaximized={windowState.isMaximized}
+                />
+              </BoardWrapper>
+              <StatusText>{getStatusText()}</StatusText>
+            </GameContent>
           )}
-
-          {openMenu === 'edit' && (
-            <>
-              <MenuOverlay onClick={() => setOpenMenu(null)} />
-              <DropdownMenu
-                $left={fileButtonRef.current ? fileButtonRef.current.offsetWidth + 4 : 50}
-              >
-                <MenuList>
-                  <MenuListItem disabled>Suggest Next Move</MenuListItem>
-                  <MenuListItem disabled>Restart Game</MenuListItem>
-                </MenuList>
-              </DropdownMenu>
-            </>
+          {activeTab === 1 && (
+            <GameContent>
+              <T3Table onLoadGame={loadGame} isMaximized={windowState.isMaximized} />
+            </GameContent>
           )}
-
-          {openMenu === 'help' && (
-            <>
-              <MenuOverlay onClick={() => setOpenMenu(null)} />
-              <DropdownMenu
-                $left={
-                  (fileButtonRef.current?.offsetWidth || 0) +
-                  (editButtonRef.current?.offsetWidth || 0) +
-                  8
-                }
-              >
-                <MenuList>
-                  <MenuListItem disabled>Help Topics</MenuListItem>
-                  <Separator />
-                  <MenuListItem disabled>About T3 Game</MenuListItem>
-                </MenuList>
-              </DropdownMenu>
-            </>
-          )}
-        </StyledToolbar>
-
-        <StyledWindowContent>
-          <Tabs value={activeTab} onChange={setActiveTab}>
-            <Tab value={0}>Play</Tab>
-            <Tab value={1}>All Games</Tab>
-          </Tabs>
-          <TabBody style={tabBodyStyle}>
-            {activeTab === 0 && (
-              <GameContent>
-                <BoardWrapper>
-                  <T3Board
-                    board={board}
-                    disabled={!!winner}
-                    onSelect={handleCellSelect}
-                    isMaximized={windowState.isMaximized}
-                  />
-                </BoardWrapper>
-                <StatusText>{getStatusText()}</StatusText>
-              </GameContent>
-            )}
-            {activeTab === 1 && (
-              <GameContent>
-                <T3Table onLoadGame={loadGame} isMaximized={windowState.isMaximized} />
-              </GameContent>
-            )}
-          </TabBody>
-        </StyledWindowContent>
-      </StyledWindow>
-    </WindowShell>
+        </TabBody>
+      </StyledWindowContent>
+    </DesktopWindow>
   );
 };
