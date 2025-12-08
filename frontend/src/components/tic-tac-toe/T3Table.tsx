@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
     Button,
+    ScrollView,
     Table,
     TableBody,
     TableDataCell,
@@ -12,9 +13,10 @@ import { gameSessionService, type GameSession } from '@api';
 
 type T3TableProps = {
     onLoadGame: (session: GameSession) => void;
+    isMaximized?: boolean;
 };
 
-export const T3Table = ({ onLoadGame }: T3TableProps) => {
+export const T3Table = ({ onLoadGame, isMaximized = false }: T3TableProps) => {
     const [sessions, setSessions] = useState<GameSession[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -62,29 +64,38 @@ export const T3Table = ({ onLoadGame }: T3TableProps) => {
     }
 
     return (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableHeadCell>Time</TableHeadCell>
-                    <TableHeadCell>Turn</TableHeadCell>
-                    <TableHeadCell>Outcome</TableHeadCell>
-                    <TableHeadCell />
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {sessions.map((session) => (
-                    <TableRow key={session._id}>
-                        <TableDataCell>{formatDate(session.createdAt)}</TableDataCell>
-                        <TableDataCell>{session.currentPlayer}</TableDataCell>
-                        <TableDataCell>{getOutcome(session)}</TableDataCell>
-                        <TableDataCell style={{ textAlign: 'right' }}>
-                            <Button size="sm" onClick={() => onLoadGame(session)}>
-                                Load Game
-                            </Button>
-                        </TableDataCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+        <ScrollView
+            style={{
+                width: '100%',
+                height: isMaximized ? 'calc(100vh - 220px)' : '320px'
+            }}
+        >
+            <div>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableHeadCell>Time</TableHeadCell>
+                            <TableHeadCell>Turn</TableHeadCell>
+                            <TableHeadCell>Outcome</TableHeadCell>
+                            <TableHeadCell />
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {sessions.map((session) => (
+                            <TableRow key={session._id}>
+                                <TableDataCell>{formatDate(session.createdAt)}</TableDataCell>
+                                <TableDataCell>{session.currentPlayer}</TableDataCell>
+                                <TableDataCell>{getOutcome(session)}</TableDataCell>
+                                <TableDataCell style={{ textAlign: 'right' }}>
+                                    <Button size="sm" onClick={() => onLoadGame(session)}>
+                                        Load Game
+                                    </Button>
+                                </TableDataCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+        </ScrollView>
     );
 };

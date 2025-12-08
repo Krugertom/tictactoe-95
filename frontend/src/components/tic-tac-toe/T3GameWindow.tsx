@@ -393,7 +393,7 @@ export const T3GameWindow = ({
             )}
             {activeTab === 1 && (
               <GameContent>
-                <T3Table onLoadGame={loadGame} />
+                <T3Table onLoadGame={loadGame} isMaximized={windowState.isMaximized} />
               </GameContent>
             )}
           </TabBody>
