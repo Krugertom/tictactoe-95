@@ -1,3 +1,4 @@
+# LLM NOTE: Not fully built with AI, but I did use code assist to format and setup services the way I wanted them
 services:
   api:
     build: ./api

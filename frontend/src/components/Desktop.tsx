@@ -10,7 +10,7 @@ type DesktopProps = {
 
 const TASKBAR_HEIGHT = 48;
 
-// LLM NOTE: Had ChatGPTy Help me create this
+// LLM NOTE: Had ChatGPTy help me create this
 const DesktopShell = styled.div`
   position: relative;
   height: calc(100vh - ${TASKBAR_HEIGHT}px);

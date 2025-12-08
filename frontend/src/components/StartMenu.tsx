@@ -20,6 +20,7 @@ const MenuContainer = styled.div`
 export const StartMenu = ({ open, onClose }: StartMenuProps) => {
   if (!open) return null;
 
+  // Note: FYI Non-functional start menu
   return (
     <MenuContainer onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()}>

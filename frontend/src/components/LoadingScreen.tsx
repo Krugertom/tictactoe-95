@@ -6,7 +6,6 @@ type LoadingScreenProps = {
   onLoadComplete: () => void;
 };
 
-
 const LoadingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -18,7 +17,7 @@ const LoadingContainer = styled.div`
   background: ${({ theme }) => theme.desktopBackground};
 `;
 
-// FYI: Docs to update hte size of the given react95 Component
+// FYI: Scaling the library's monitor component
 const StyledMonitor = styled(Monitor)`
   transform: scale(2);
 `;

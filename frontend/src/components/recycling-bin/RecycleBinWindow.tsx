@@ -1,4 +1,4 @@
-// LLM NOTE! I had claude generate this for me, just for fun but used my exisiting components for the window
+// LLM NOTE: I had claude generate this for me, just for fun but used my exisiting components for the window
 import { DesktopWindow } from '@/components/shared/DesktopWindow';
 import { Button, GroupBox, ScrollView, Toolbar, WindowContent } from 'react95';
 import styled from 'styled-components';

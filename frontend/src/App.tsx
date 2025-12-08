@@ -25,6 +25,9 @@ const openWindow = (setState: Dispatch<SetStateAction<WindowState>>) => {
 export const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [startMenuOpen, setStartMenuOpen] = useState(false);
+  const toggleStartMenu = () => setStartMenuOpen((prev) => !prev);
+
+  // With more time, I would refactor this into a factory for window management.
   const [ticTacToeWindow, setTicTacToeWindow] = useState<WindowState>({
     isOpen: false,
     isMinimized: false,
@@ -43,8 +46,6 @@ export const App = () => {
     isMaximized: false,
     position: { x: 180, y: 120 },
   });
-
-  const toggleStartMenu = () => setStartMenuOpen((prev) => !prev);
   const toggleTicTacToe = () => {
     openWindow(setTicTacToeWindow);
     setStartMenuOpen(false);

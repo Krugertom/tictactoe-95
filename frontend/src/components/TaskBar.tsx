@@ -37,6 +37,7 @@ const ClockFrame = styled(Frame)`
   justify-content: center;
 `;
 
+// Note: with more time I would package these props to be more DRY. 
 export const Taskbar = ({
   startMenuOpen,
   onToggleStart,

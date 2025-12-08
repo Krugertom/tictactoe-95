@@ -60,7 +60,7 @@ const TitleBarRight = styled.div`
   display: flex;
   gap: 4px;
 `;
-
+// Note: Most of this styling taken from React95 Example Docs
 const CloseIcon = styled.span`
   display: inline-block;
   width: 16px;
