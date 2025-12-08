@@ -1,6 +1,7 @@
 import { ApiClient } from '../ApiClient';
 import type { Board, GameResult } from '@lib/t3GameEngine';
 
+// Note: With more time I would like to package most of the shared types into an entities package
 export interface GameSession {
     _id?: string;
     board: (string | null)[];
