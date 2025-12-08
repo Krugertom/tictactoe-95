@@ -16,7 +16,7 @@ const LoadingContainer = styled.div`
   width: 100vw;
   height: 100vh;
   background: ${({ theme }) => theme.desktopBackground};
-`; // TODO: Check type of this
+`;
 
 // FYI: Docs to update hte size of the given react95 Component
 const StyledMonitor = styled(Monitor)`
@@ -30,14 +30,9 @@ const MonitorContent = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: #ffffff;
-  padding: 12px;
-`;
-
-const LoadingText = styled.div`
-  font-family: 'ms_sans_serif', sans-serif;
-  font-size: 12px;
-  font-weight: bold;
+  background-image: url('/startup.jpg');
+  background-size: 100%;
+  background-position: center;
 `;
 
 const ProgressBarContainer = styled.div`
@@ -69,9 +64,7 @@ export const LoadingScreen = ({ onLoadComplete }: LoadingScreenProps) => {
   return (
     <LoadingContainer>
       <StyledMonitor>
-        <MonitorContent>
-          <LoadingText>Windows 95</LoadingText>
-        </MonitorContent>
+        <MonitorContent />
       </StyledMonitor>
       <ProgressBarContainer>
         <ProgressBar variant="tile" value={Math.floor(percent)} hideValue />
