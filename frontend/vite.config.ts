@@ -10,6 +10,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       '@components': path.resolve(__dirname, './src/components'),
       '@lib': path.resolve(__dirname, './src/lib'),
+      '@api': path.resolve(__dirname, './src/api'),
     },
+  },
+  build: {
+    outDir: 'dist',
   },
 })
