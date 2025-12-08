@@ -2,11 +2,7 @@
 import { settings } from '../settings';
 
 export class ApiClient {
-    private baseUrl: string;
-
-    constructor() {
-        this.baseUrl = settings.api.baseUrl;
-    }
+    private baseUrl: string = settings.apiBaseUrl;
 
     protected getUrl(endpoint: string): string {
         return `${this.baseUrl}${endpoint}`;

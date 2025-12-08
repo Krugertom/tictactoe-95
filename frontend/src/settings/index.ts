@@ -1,6 +1,3 @@
-import { createSettingsProxy } from 'envarna';
-import { ApiSettings } from './api';
-
-export const settings = createSettingsProxy({
-    api: () => ApiSettings.load(),
-});
+export const settings = {
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL ?? '/',
+};
