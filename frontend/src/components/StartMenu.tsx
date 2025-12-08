@@ -1,4 +1,4 @@
-import { MenuList, MenuListItem, Panel } from 'react95';
+import { Frame, MenuList, MenuListItem } from 'react95';
 import styled from 'styled-components';
 
 type StartMenuProps = {
@@ -23,13 +23,16 @@ export const StartMenu = ({ open, onClose }: StartMenuProps) => {
   return (
     <MenuContainer onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()}>
-        <Panel variant="outside" shadow={false}>
+        <Frame variant="outside" shadow={false}>
           <MenuList>
-            <MenuListItem disabled>Tic Tac Toe</MenuListItem>
+            <MenuListItem disabled>My Programs</MenuListItem>
+            <MenuListItem disabled>Settings</MenuListItem>
+            <MenuListItem disabled>Find</MenuListItem>
+            <MenuListItem disabled>Help</MenuListItem>
             <MenuListItem disabled>Programs</MenuListItem>
-            <MenuListItem disabled>Run</MenuListItem>
+            <MenuListItem disabled>Run...</MenuListItem>
           </MenuList>
-        </Panel>
+        </Frame>
       </div>
     </MenuContainer>
   );
