@@ -242,6 +242,7 @@ export const T3GameWindow = ({
                 <MenuListItem
                   onClick={() => {
                     resetGame();
+                    setActiveTab(0);
                     setOpenMenu(null);
                   }}
                 >
