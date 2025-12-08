@@ -40,16 +40,18 @@ export const App = () => {
   return (
     <div style={{ height: '100%', position: 'relative', overflow: 'hidden' }}>
       <Desktop onOpenGame={toggleTicTacToe} >
-        {windowState.isOpen && !windowState.isMinimized && (
-          <T3GameWindow
-            windowState={windowState}
-            onMinimize={() => setWindowState((prev) => ({ ...prev, isMinimized: true }))}
-            onMaximize={() => setWindowState((prev) => ({ ...prev, isMaximized: !prev.isMaximized }))}
-            onClose={() => setWindowState((prev) => ({ ...prev, isOpen: false }))}
-            onPositionChange={(position: { x: number; y: number }) =>
-              setWindowState((prev) => ({ ...prev, position }))
-            }
-          />
+        {windowState.isOpen && (
+          <div style={{ display: windowState.isMinimized ? 'none' : 'block' }}>
+            <T3GameWindow
+              windowState={windowState}
+              onMinimize={() => setWindowState((prev) => ({ ...prev, isMinimized: true }))}
+              onMaximize={() => setWindowState((prev) => ({ ...prev, isMaximized: !prev.isMaximized }))}
+              onClose={() => setWindowState((prev) => ({ ...prev, isOpen: false }))}
+              onPositionChange={(position: { x: number; y: number }) =>
+                setWindowState((prev) => ({ ...prev, position }))
+              }
+            />
+          </div>
         )}
 
       </Desktop>
