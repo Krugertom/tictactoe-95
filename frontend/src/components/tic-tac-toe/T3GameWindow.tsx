@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import {
   Window,
   WindowContent,
@@ -123,6 +123,36 @@ const MenuOverlay = styled.div`
   z-index: 999;
 `;
 
+const TitleBarLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const TitleBarRight = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
+const ButtonText = styled.span`
+  font-weight: 700;
+  font-size: 16px;
+`;
+
+const StyledWindow = styled(Window)`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
+
+const StyledToolbar = styled(Toolbar)`
+  position: relative;
+`;
+
+const StyledWindowContent = styled(WindowContent)`
+  height: calc(100% - 32px);
+`;
+
 export const T3GameWindow = ({
   windowState,
   onMinimize,
@@ -219,6 +249,14 @@ export const T3GameWindow = ({
     setActiveTab(0);
   };
 
+  const tabBodyStyle = useMemo(
+    () => ({
+      height: windowState.isMaximized ? 'calc(100vh - 200px)' : 350,
+      padding: '8px',
+    }),
+    [windowState.isMaximized]
+  );
+
   const getStatusText = () => {
     if (winner === 'tie') return "It's a tie!";
     if (winner) return `${winner} wins!`;
@@ -254,41 +292,34 @@ export const T3GameWindow = ({
   };
 
   // NOTE: Pattern here for window management taken from react95 styled examples
-
   return (
     <WindowShell
       $x={windowState.position.x}
       $y={windowState.position.y}
       $isMaximized={windowState.isMaximized}
     >
-      <Window
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'relative',
-        }}
-      >
+      <StyledWindow>
         <WindowHeader>
           <TitleBar onMouseDown={handleDragStart}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <TitleBarLeft>
               <img src="/icons/tictactoe.ico.png" alt="" width={16} height={16} />
               <span>Tic-Tac-Toe</span>
-            </div>
-            <div style={{ display: 'flex', gap: 4 }}>
+            </TitleBarLeft>
+            <TitleBarRight>
               <Button size="sm" onClick={onMinimize}>
-                <span style={{ fontWeight: 700, fontSize: '16px' }}>_</span>
+                <ButtonText>_</ButtonText>
               </Button>
               <Button size="sm" onClick={onMaximize}>
-                <span style={{ fontWeight: 700, fontSize: '16px' }}>□</span>
+                <ButtonText>□</ButtonText>
               </Button>
               <Button size="sm" onClick={handleClose}>
                 <CloseIcon />
               </Button>
-            </div>
+            </TitleBarRight>
           </TitleBar>
         </WindowHeader>
 
-        <Toolbar style={{ position: 'relative' }}>
+        <StyledToolbar>
           <Button
             ref={fileButtonRef}
             variant="menu"
@@ -375,19 +406,14 @@ export const T3GameWindow = ({
               </DropdownMenu>
             </>
           )}
-        </Toolbar>
+        </StyledToolbar>
 
-        <WindowContent style={{ height: 'calc(100% - 32px)' }}>
+        <StyledWindowContent>
           <Tabs value={activeTab} onChange={setActiveTab}>
             <Tab value={0}>Play</Tab>
             <Tab value={1}>All Games</Tab>
           </Tabs>
-          <TabBody
-            style={{
-              height: windowState.isMaximized ? 'calc(100vh - 200px)' : 350,
-              padding: '8px',
-            }}
-          >
+          <TabBody style={tabBodyStyle}>
             {activeTab === 0 && (
               <GameContent>
                 <BoardWrapper>
@@ -407,8 +433,8 @@ export const T3GameWindow = ({
               </GameContent>
             )}
           </TabBody>
-        </WindowContent>
-      </Window>
+        </StyledWindowContent>
+      </StyledWindow>
     </WindowShell>
   );
 };
