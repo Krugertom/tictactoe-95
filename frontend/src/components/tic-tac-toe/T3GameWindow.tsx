@@ -198,7 +198,7 @@ export const T3GameWindow = ({
   return (
     <DesktopWindow
       title="Tic-Tac-Toe"
-      iconSrc="/icons/tictactoe.ico.png"
+      iconSrc="/icons/tictactoe.png"
       windowState={windowState}
       onPositionChange={onPositionChange}
       onMinimize={onMinimize}
