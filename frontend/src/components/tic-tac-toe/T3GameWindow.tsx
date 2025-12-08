@@ -141,9 +141,13 @@ export const T3GameWindow = ({
   const fileButtonRef = useRef<HTMLButtonElement>(null);
   const editButtonRef = useRef<HTMLButtonElement>(null);
   const helpButtonRef = useRef<HTMLButtonElement>(null);
+  const hasCreatedInitialSession = useRef(false);
 
   useEffect(() => {
     const createNewSession = async () => {
+      if (hasCreatedInitialSession.current) return;
+      hasCreatedInitialSession.current = true;
+
       try {
         const session = await gameSessionService.createSession({
           board: createEmptyBoard(),
