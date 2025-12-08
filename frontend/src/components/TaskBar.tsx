@@ -1,4 +1,5 @@
-import { AppBar, Button, Toolbar } from 'react95';
+import { useEffect, useState } from 'react';
+import { AppBar, Button, Frame, Toolbar } from 'react95';
 import styled from 'styled-components';
 
 type TaskbarProps = {
@@ -27,6 +28,15 @@ const TaskbarContainer = styled.div`
   height: ${TASKBAR_HEIGHT}px;
 `;
 
+//LLM NOTE: Added for fun with claude (clock feature in taskbar)
+const ClockFrame = styled(Frame)`
+  margin-left: auto;
+  padding: 6px 12px;
+  min-width: 96px;
+  display: flex;
+  justify-content: center;
+`;
+
 export const Taskbar = ({
   startMenuOpen,
   onToggleStart,
@@ -40,6 +50,20 @@ export const Taskbar = ({
   isAboutMinimized,
   onToggleAboutWindow,
 }: TaskbarProps) => {
+
+//LLM NOTE: Added for fun with claude (clock feature in taskbar)
+  const [timeString, setTimeString] = useState(() =>
+    new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }),
+  );
+
+  useEffect(() => {
+    const intervalId = window.setInterval(
+      () => setTimeString(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })),
+      30_000,
+    );
+    return () => window.clearInterval(intervalId);
+  }, []);
+
   return (
     <TaskbarContainer>
       <AppBar style={{ position: 'static', width: '100%' }}>
@@ -82,6 +106,7 @@ export const Taskbar = ({
             </Button>
           )}
 
+          <ClockFrame variant="well">{timeString}</ClockFrame>
         </Toolbar>
       </AppBar>
     </TaskbarContainer>
