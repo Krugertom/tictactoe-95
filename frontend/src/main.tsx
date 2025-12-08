@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import isPropValid from '@emotion/is-prop-valid';
+import {
+  StyleSheetManager,
+  createGlobalStyle,
+  type ShouldForwardProp,
+  ThemeProvider,
+} from 'styled-components';
 import { styleReset } from 'react95';
 import original from 'react95/dist/themes/original';
 import { App } from '@/App';
@@ -30,13 +36,19 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+// LLM NOTE: Had clade help me write this helper function to detail with difficulties with react95 package
+// helper function created to filter style-only props from react95 components so they don't end up on DOM nodes.
+const shouldForwardProp: ShouldForwardProp<'web'> = (prop, elementToBeStyled) =>
+  typeof elementToBeStyled === 'string' ? isPropValid(prop) : true;
 void ensureReact95FontsLoaded();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ThemeProvider theme={original}>
-      <GlobalStyles />
-      <App />
-    </ThemeProvider>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+      <ThemeProvider theme={original}>
+        <GlobalStyles />
+        <App />
+      </ThemeProvider>
+    </StyleSheetManager>
   </React.StrictMode>,
 );
