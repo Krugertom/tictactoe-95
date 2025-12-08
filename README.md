@@ -28,7 +28,7 @@ cp api/.env.example api/.env
 ```bash
 docker compose up -d
 ```
-3) App opens at http://localhost:3000
+3) App opens at http://localhost:5173
 4) Double click on the tic tac toe icon to play!
 
 ## What’s Inside
