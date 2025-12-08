@@ -14,6 +14,7 @@ RUN npm run build
 
 FROM nginx:alpine
 
+# LLM NOTE: help from ChatGPT with issues in vite
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 

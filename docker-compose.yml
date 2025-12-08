@@ -10,6 +10,7 @@ services:
       - "3001:3001"
     depends_on:
       - mongo
+    restart: on-failure
 
   frontend:
     build:
@@ -20,10 +21,11 @@ services:
       - "3000:80"
     depends_on:
       - api
+    restart: on-failure
 
   mongo:
     image: mongo:7
-    restart: unless-stopped
+    restart: on-failure
     environment:
       MONGO_INITDB_DATABASE: tictactoe
     ports:

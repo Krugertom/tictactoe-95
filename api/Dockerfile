@@ -8,7 +8,6 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Runtime image
 FROM node:20-alpine
 WORKDIR /app
 
