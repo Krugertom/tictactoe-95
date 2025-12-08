@@ -9,6 +9,7 @@ import {
   MenuList,
   MenuListItem,
   Separator,
+  Frame,
 } from 'react95';
 import styled from 'styled-components';
 import { DesktopWindow } from '@/components/shared/DesktopWindow';
@@ -53,6 +54,18 @@ const StatusText = styled.p`
   margin: 0 0 8px;
   font-size: 11px;
   text-align: center;
+`;
+
+const StatusFrameWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
+const StatusFrame = styled(Frame)`
+  width: 50%;
+  text-align: center;
+  font-weight: bold;
 `;
 
 const DropdownMenu = styled.div<{ $left: number }>`
@@ -309,7 +322,9 @@ export const T3GameWindow = ({
                   isMaximized={windowState.isMaximized}
                 />
               </BoardWrapper>
-              <StatusText>{getStatusText()}</StatusText>
+              <StatusFrameWrapper>
+                <StatusFrame variant='well'>{getStatusText()}</StatusFrame>
+              </StatusFrameWrapper>
             </GameContent>
           )}
           {activeTab === 1 && (

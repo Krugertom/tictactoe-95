@@ -35,6 +35,7 @@ export const T3Table = ({ onLoadGame, isMaximized = false }: T3TableProps) => {
         fetchSessions();
     }, []);
 
+    //LLM NOTE: Had Claude help me write this, date times...
     const formatDate = (date: Date | undefined) => {
         if (!date) return 'N/A';
         return new Date(date).toLocaleString('en-US', {
