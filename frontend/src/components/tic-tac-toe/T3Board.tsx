@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
+type CellValue = 'X' | 'O' | null;
 type TicTacToeBoardProps = {
-  board: any; //TODO: Type this later
+  board: CellValue[];
   disabled?: boolean;
   onSelect: (index: number) => void;
   isMaximized?: boolean;
