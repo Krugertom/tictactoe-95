@@ -12,12 +12,6 @@ import {
   MenuList,
   MenuListItem,
   Separator,
-  Table,
-  TableBody,
-  TableDataCell,
-  TableHead,
-  TableHeadCell,
-  TableRow,
 } from 'react95';
 import styled from 'styled-components';
 import { T3Board } from '@/components/tic-tac-toe/T3Board';
@@ -30,7 +24,7 @@ import {
   type GameResult,
 } from '@lib/t3GameEngine';
 import { T3Table } from './T3Table';
-import { gameSessionService } from '@api';
+import { gameSessionService, type GameSession } from '@api';
 
 type SimpleGameWindowProps = {
   windowState: any;
@@ -213,6 +207,14 @@ export const T3GameWindow = ({
     }
   };
 
+  const loadGame = (session: GameSession) => {
+    setBoard(session.board as Board);
+    setCurrentPlayer(session.currentPlayer);
+    setWinner(session.winner);
+    setSessionId(session._id || null);
+    setActiveTab(0);
+  };
+
   const getStatusText = () => {
     if (winner === 'tie') return "It's a tie!";
     if (winner) return `${winner} wins!`;
@@ -391,7 +393,7 @@ export const T3GameWindow = ({
             )}
             {activeTab === 1 && (
               <GameContent>
-                <T3Table />
+                <T3Table onLoadGame={loadGame} />
               </GameContent>
             )}
           </TabBody>
