@@ -330,8 +330,14 @@ export const T3GameWindow = ({
                   >
                     New Game
                   </MenuListItem>
-                  <MenuListItem disabled>Save Game</MenuListItem>
-                  <MenuListItem disabled>Load Game</MenuListItem>
+                  <MenuListItem
+                    onClick={() => {
+                      setActiveTab(1);
+                      setOpenMenu(null);
+                    }}
+                  >
+                    Load Game
+                  </MenuListItem>
                 </MenuList>
               </DropdownMenu>
             </>
