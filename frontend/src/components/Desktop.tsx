@@ -31,6 +31,7 @@ const IconColumn = styled.div`
 
 export const Desktop = ({ children, onOpenGame, onOpenRecycleBin, onOpenAboutTom }: DesktopProps) => {
   const icons = [
+    { id: 'my-computer', label: 'My Computer', icon: '/icons/my_comp.ico', },
     { id: 'recycle-bin', label: 'Recycle Bin', icon: '/icons/recycle.ico', onDoubleClick: onOpenRecycleBin },
     { id: 'tictactoe', label: 'Tic-Tac-Toe', icon: '/icons/tictactoe.png', onDoubleClick: onOpenGame },
     { id: 'about-tom', label: 'about_tom.txt', icon: '/icons/file_1.ico', onDoubleClick: onOpenAboutTom },
