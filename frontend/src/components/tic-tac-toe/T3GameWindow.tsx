@@ -50,12 +50,6 @@ const BoardWrapper = styled.div`
   padding: 16px;
 `;
 
-const StatusText = styled.p`
-  margin: 0 0 8px;
-  font-size: 11px;
-  text-align: center;
-`;
-
 const StatusFrameWrapper = styled.div`
   display: flex;
   justify-content: center;

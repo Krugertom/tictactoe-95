@@ -8,6 +8,9 @@ type TaskbarProps = {
   isGameRunning: boolean;
   isGameMinimized: boolean;
   onToggleGameWindow: () => void;
+  isRecycleOpen: boolean;
+  isRecycleMinimized: boolean;
+  onToggleRecycleWindow: () => void;
 };
 
 const TASKBAR_HEIGHT = 48;
@@ -22,7 +25,16 @@ const TaskbarContainer = styled.div`
   height: ${TASKBAR_HEIGHT}px;
 `;
 
-export const Taskbar = ({ startMenuOpen, onToggleStart, isGameRunning, isGameMinimized, onToggleGameWindow}: TaskbarProps) => {
+export const Taskbar = ({
+  startMenuOpen,
+  onToggleStart,
+  isGameRunning,
+  isGameMinimized,
+  onToggleGameWindow,
+  isRecycleOpen,
+  isRecycleMinimized,
+  onToggleRecycleWindow,
+}: TaskbarProps) => {
   return (
     <TaskbarContainer>
       <AppBar style={{ position: 'static', width: '100%' }}>
@@ -31,6 +43,17 @@ export const Taskbar = ({ startMenuOpen, onToggleStart, isGameRunning, isGameMin
             <img src="/icons/w95.ico" alt="" width={18} height={18} style={{ marginRight: 4 }} />
             <span style={{ fontWeight: 700 }}>Start</span>
           </Button>
+
+          {isRecycleOpen && (
+            <Button
+              onClick={onToggleRecycleWindow}
+              active={!isRecycleMinimized}
+              style={{ marginLeft: 8, minWidth: 140, justifyContent: 'flex-start' }}
+            >
+              <img src="/icons/recycle.ico" alt="" width={18} height={18} style={{ marginRight: 8 }} />
+              Recycle Bin
+            </Button>
+          )}
 
           {isGameRunning && (
             <Button

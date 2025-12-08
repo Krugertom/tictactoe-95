@@ -4,6 +4,7 @@ import { DesktopIcon } from '@components/DesktopIcon';
 type DesktopProps = {
   children?: any; // TODO: Look at typing this? ReactNode?
   onOpenGame: () => void;
+  onOpenRecycleBin: () => void;
 };
 
 const TASKBAR_HEIGHT = 48;
@@ -27,8 +28,9 @@ const IconColumn = styled.div`
   gap: 18px;
 `;
 
-export const Desktop = ({ children, onOpenGame,}: DesktopProps) => {
+export const Desktop = ({ children, onOpenGame, onOpenRecycleBin }: DesktopProps) => {
   const icons = [
+    { id: 'recycle-bin', label: 'Recycle Bin', icon: '/icons/recycle.ico', onDoubleClick: onOpenRecycleBin },
     { id: 'tictactoe', label: 'Tic-Tac-Toe', icon: '/icons/tictactoe.png', onDoubleClick: onOpenGame },
   ];
 
