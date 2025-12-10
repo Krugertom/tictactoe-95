@@ -9,7 +9,7 @@ import {
     TableHeadCell,
     TableRow,
 } from 'react95';
-import { gameSessionService, type GameSession } from '@api';
+import { localGameStorageService, type GameSession } from '@/services/localGameStorage.service';
 
 type T3TableProps = {
     onLoadGame: (session: GameSession) => void;
@@ -23,7 +23,7 @@ export const T3Table = ({ onLoadGame, isMaximized = false }: T3TableProps) => {
     useEffect(() => {
         const fetchSessions = async () => {
             try {
-                const data = await gameSessionService.getAllSessions();
+                const data = await localGameStorageService.getAllSessions();
                 setSessions(data);
             } catch (error) {
                 console.error('Failed to fetch game sessions:', error);
@@ -54,6 +54,17 @@ export const T3Table = ({ onLoadGame, isMaximized = false }: T3TableProps) => {
             if (session.winner) return `${session.winner} Wins`;
         }
         return 'In Progress';
+    };
+
+    const handleDeleteGame = async (sessionId: string) => {
+        try {
+            await localGameStorageService.deleteSession(sessionId);
+            // Refresh the sessions list after deletion
+            const updatedSessions = await localGameStorageService.getAllSessions();
+            setSessions(updatedSessions);
+        } catch (error) {
+            console.error('Failed to delete game session:', error);
+        }
     };
 
     if (loading) {
@@ -88,8 +99,18 @@ export const T3Table = ({ onLoadGame, isMaximized = false }: T3TableProps) => {
                                 <TableDataCell>{session.currentPlayer}</TableDataCell>
                                 <TableDataCell>{getOutcome(session)}</TableDataCell>
                                 <TableDataCell style={{ textAlign: 'right' }}>
-                                    <Button size="sm" onClick={() => onLoadGame(session)}>
-                                        Load Game
+                                    <Button
+                                        size="sm"
+                                        onClick={() => onLoadGame(session)}
+                                        style={{ marginRight: '4px' }}
+                                    >
+                                        Load
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        onClick={() => handleDeleteGame(session._id)}
+                                    >
+                                        Delete
                                     </Button>
                                 </TableDataCell>
                             </TableRow>

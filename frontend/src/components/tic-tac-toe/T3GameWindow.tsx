@@ -23,7 +23,7 @@ import {
   type GameResult,
 } from '@lib/t3GameEngine';
 import { T3Table } from './T3Table';
-import { gameSessionService, type GameSession } from '@api';
+import { localGameStorageService, type GameSession } from '@/services/localGameStorage.service';
 
 type SimpleGameWindowProps = {
   windowState: {
@@ -113,7 +113,7 @@ export const T3GameWindow = ({
       hasCreatedInitialSession.current = true;
 
       try {
-        const session = await gameSessionService.createSession({
+        const session = await localGameStorageService.createSession({
           board: createEmptyBoard(),
           currentPlayer: 'X',
           status: 'in_progress',
@@ -134,7 +134,7 @@ export const T3GameWindow = ({
     setWinner(null);
 
     try {
-      const session = await gameSessionService.createSession({
+      const session = await localGameStorageService.createSession({
         board: createEmptyBoard(),
         currentPlayer: 'X',
         status: 'in_progress',
@@ -164,7 +164,7 @@ export const T3GameWindow = ({
     }
 
     try {
-      await gameSessionService.updateSession(sessionId, {
+      await localGameStorageService.updateSession(sessionId, {
         board: newBoard,
         currentPlayer: nextPlayer,
         status: gameWinner ? 'completed' : 'in_progress',
@@ -181,6 +181,23 @@ export const T3GameWindow = ({
     setWinner(session.winner);
     setSessionId(session._id || null);
     setActiveTab(0);
+  };
+
+  const handleTabChange = async (newTab: number) => {
+    // If switching to Play tab, check if current session still exists
+    if (newTab === 0 && sessionId) {
+      try {
+        await localGameStorageService.getSessionById(sessionId);
+        // Session exists, just switch tabs
+        setActiveTab(newTab);
+      } catch (error) {
+        // Session was deleted, reset the game and create a new one
+        await resetGame();
+        setActiveTab(newTab);
+      }
+    } else {
+      setActiveTab(newTab);
+    }
   };
 
   const tabBodyStyle = useMemo(
@@ -211,6 +228,7 @@ export const T3GameWindow = ({
       onMinimize={onMinimize}
       onMaximize={onMaximize}
       onClose={handleClose}
+      width={650}
     >
       <StyledToolbar>
         <Button
@@ -247,8 +265,8 @@ export const T3GameWindow = ({
             <DropdownMenu $left={4}>
               <MenuList>
                 <MenuListItem
-                  onClick={() => {
-                    resetGame();
+                  onClick={async () => {
+                    await resetGame();
                     setActiveTab(0);
                     setOpenMenu(null);
                   }}
@@ -257,7 +275,7 @@ export const T3GameWindow = ({
                 </MenuListItem>
                 <MenuListItem
                   onClick={() => {
-                    setActiveTab(1);
+                    handleTabChange(1);
                     setOpenMenu(null);
                   }}
                 >
@@ -301,7 +319,7 @@ export const T3GameWindow = ({
       </StyledToolbar>
 
       <StyledWindowContent>
-        <Tabs value={activeTab} onChange={setActiveTab}>
+        <Tabs value={activeTab} onChange={handleTabChange}>
           <Tab value={0}>Play</Tab>
           <Tab value={1}>All Games</Tab>
         </Tabs>
