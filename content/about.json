@@ -1,0 +1,32 @@
+{
+  "title": "Hi, I'm Tom Kruger!",
+  "introduction": "I'm an experienced software engineer with global and cross-industry experience, building scalable products across diverse tech stacks. Currently at Trinnex, I develop secure, high-performance data platforms and lead microservice architecture for municipal infrastructure solutions.",
+  "background": "Throughout my career, I've delivered solutions for enterprise clients including HSBC, Disney, Polestar, TD Ameritrade, Charles Schwab, DeBeers, Cisco, L'Oreal, United Airlines, and Mandarin Oriental.",
+  "experience": {
+    "title": "EXPERIENCE",
+    "items": [
+      "Full-stack development with Next.js, React, C#, Node.js, TypeScript, and Python",
+      "Data platforms including PostgreSQL, MongoDB, Google BigQuery, and Snowflake",
+      "Cloud infrastructure on GCP with Docker and microservices",
+      "Enterprise Salesforce integrations and AI/ML model deployment",
+      "8+ years international experience in China (Shanghai, Guangzhou)",
+      "MS Computer Science from Northeastern University",
+      "Former Managing Director at Chatly (acquired by Salesforce)"
+    ]
+  },
+  "interests": {
+    "title": "INTERESTS & HOBBIES",
+    "items": [
+      "Woodworking and craftsmanship",
+      "Cycling adventures",
+      "Language learning",
+      "NLP and digitizing ancient texts (especially 1st-2nd century)",
+      "AmeriCorps alum",
+      "Zelda: Breath of the Wild enthusiast"
+    ]
+  },
+  "contact": {
+    "email": "krugertom@outlook.com",
+    "github": "krugertom"
+  }
+}

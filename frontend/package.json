@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "npm run copy-content && vite",
+    "build": "npm run copy-content && tsc -b && vite build",
+    "copy-content": "node scripts/copy-content.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

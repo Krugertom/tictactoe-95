@@ -1,0 +1,115 @@
+# Pages CMS Configuration for Tic-Tac-Toe 95
+# Edit this site's content at https://app.pagescms.org
+
+media:
+  - name: icons
+    label: Icons
+    input: frontend/public/icons
+    output: /icons
+    extensions: [png, ico, svg, jpg, jpeg]
+  - name: images
+    label: Images
+    input: frontend/public
+    output: /
+    extensions: [png, jpg, jpeg, webp, gif, svg]
+
+content:
+  - name: about
+    label: About Tom
+    type: file
+    path: content/about.json
+    format: json
+    fields:
+      - name: title
+        label: Title
+        type: string
+        default: "Hi, I'm Tom Kruger!"
+      - name: introduction
+        label: Introduction
+        type: text
+        description: Opening paragraph about yourself
+      - name: background
+        label: Background
+        type: text
+        description: Professional background and clients
+      - name: experience
+        label: Experience
+        type: object
+        fields:
+          - name: title
+            label: Section Title
+            type: string
+            default: "EXPERIENCE"
+          - name: items
+            label: Experience Items
+            type: text
+            list: true
+      - name: interests
+        label: Interests & Hobbies
+        type: object
+        fields:
+          - name: title
+            label: Section Title
+            type: string
+            default: "INTERESTS & HOBBIES"
+          - name: items
+            label: Interest Items
+            type: text
+            list: true
+      - name: contact
+        label: Contact Information
+        type: object
+        fields:
+          - name: email
+            label: Email
+            type: string
+          - name: github
+            label: GitHub Username
+            type: string
+
+  - name: settings
+    label: Site Settings
+    type: file
+    path: content/settings.json
+    format: json
+    fields:
+      - name: siteName
+        label: Site Name
+        type: string
+        required: true
+        default: "Tic Tac Toe 95"
+      - name: description
+        label: Site Description
+        type: text
+        default: "A Windows 95-style Tic Tac Toe game built with React"
+      - name: startupImage
+        label: Startup Image
+        type: image
+        options:
+          media: images
+      - name: backgroundImage
+        label: Background Image
+        type: image
+        options:
+          media: images
+      - name: features
+        label: Features
+        type: object
+        fields:
+          - name: enableSounds
+            label: Enable Sounds
+            type: boolean
+            default: false
+          - name: enableAnimations
+            label: Enable Animations
+            type: boolean
+            default: true
+          - name: maxStoredGames
+            label: Maximum Stored Games
+            type: number
+            default: 100
+            description: Maximum number of games to store in local storage
+
+settings:
+  content:
+    merge: true
