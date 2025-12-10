@@ -1,6 +1,3 @@
-# Pages CMS Configuration for Tic-Tac-Toe 95
-# Edit this site's content at https://app.pagescms.org
-
 media:
   - name: icons
     label: Icons
