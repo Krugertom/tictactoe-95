@@ -59,19 +59,6 @@ content:
             label: Interest Items
             type: string
             list: true
-      - name: contact
-        label: Contact Information
-        type: object
-        fields:
-          - name: email
-            label: Email
-            type: string
-            pattern:
-              regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-              message: 'Must be a valid email address'
-          - name: github
-            label: GitHub Username
-            type: string
 
   - name: settings
     label: Site Settings
