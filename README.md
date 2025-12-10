@@ -24,3 +24,28 @@ npm run dev
 App opens at http://localhost:5173
 
 Double click on the tic tac toe icon to play!
+
+## Content Management
+
+This project uses [Pages CMS](https://pagescms.org) to manage content like the "About Tom" section and site settings.
+
+### Editing Content
+
+1. Visit [https://app.pagescms.org](https://app.pagescms.org)
+2. Log in with your GitHub account
+3. Select this repository and branch
+4. Edit content directly through the Pages CMS interface
+
+Content is stored in JSON files in the `/content` directory:
+- `/content/about.json` - About page content
+- `/content/settings.json` - Site-wide settings
+
+The configuration is defined in `.pages.yml` at the root of the repository.
+
+### Local Content Updates
+
+If you edit content files locally, make sure to copy them to the frontend:
+
+```bash
+cp -r content/ frontend/public/
+```

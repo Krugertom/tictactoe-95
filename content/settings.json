@@ -1,0 +1,11 @@
+{
+  "siteName": "Tic Tac Toe 95",
+  "description": "A Windows 95-style Tic Tac Toe game built with React",
+  "startupImage": "/startup.jpg",
+  "backgroundImage": "/95-background.jpg",
+  "features": {
+    "enableSounds": false,
+    "enableAnimations": true,
+    "maxStoredGames": 100
+  }
+}

@@ -1,7 +1,9 @@
 // LLM NOTE: I had claude generate this for me, just for fun but used my exisiting components for the window
+import { useState, useEffect } from 'react';
 import { DesktopWindow } from '@/components/shared/DesktopWindow';
 import { Button, GroupBox, ScrollView, Toolbar, WindowContent } from 'react95';
 import styled from 'styled-components';
+import { contentService, type AboutContent } from '@/services/content.service';
 
 type AboutTomWindowProps = {
   windowState: {
@@ -90,6 +92,24 @@ export const AboutTomWindow = ({
   onMaximize,
   onClose,
 }: AboutTomWindowProps) => {
+  const [content, setContent] = useState<AboutContent | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const data = await contentService.getAboutContent();
+        setContent(data);
+      } catch (error) {
+        console.error('Failed to load about content:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadContent();
+  }, []);
+
   return (
     <DesktopWindow
       title="About_Tom.txt"
@@ -120,47 +140,41 @@ export const AboutTomWindow = ({
       <StyledWindowContent $isMaximized={windowState.isMaximized}>
         <StyledGroupBox variant="flat">
           <StyledScrollView>
-            <ContentText>
-              <h1>Hi, I'm Tom Kruger!</h1>
+            {loading ? (
+              <ContentText>
+                <p style={{ textAlign: 'center', padding: '32px' }}>Loading...</p>
+              </ContentText>
+            ) : content ? (
+              <ContentText>
+                <h1>{content.title}</h1>
 
-              <p>
-                I'm an experienced software engineer with global and cross-industry experience,
-                building scalable products across diverse tech stacks. Currently at Trinnex, I
-                develop secure, high-performance data platforms and lead microservice architecture
-                for municipal infrastructure solutions.
-              </p>
+                <p>{content.introduction}</p>
 
-              <p>
-                Throughout my career, I've delivered solutions for enterprise clients including
-                HSBC, Disney, Polestar, TD Ameritrade, Charles Schwab, DeBeers, Cisco, L'Oreal,
-                United Airlines, and Mandarin Oriental.
-              </p>
+                <p>{content.background}</p>
 
-              <h2>EXPERIENCE</h2>
-              <ul>
-                <li>Full-stack development with Next.js, React, C#, Node.js, TypeScript, and Python</li>
-                <li>Data platforms including PostgreSQL, MongoDB, Google BigQuery, and Snowflake</li>
-                <li>Cloud infrastructure on GCP with Docker and microservices</li>
-                <li>Enterprise Salesforce integrations and AI/ML model deployment</li>
-                <li>8+ years international experience in China (Shanghai, Guangzhou)</li>
-                <li>MS Computer Science from Northeastern University</li>
-                <li>Former Managing Director at Chatly (acquired by Salesforce)</li>
-              </ul>
+                <h2>{content.experience.title}</h2>
+                <ul>
+                  {content.experience.items.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
 
-              <h2>INTERESTS & HOBBIES</h2>
-              <ul>
-                <li>Woodworking and craftsmanship</li>
-                <li>Cycling adventures</li>
-                <li>Language learning</li>
-                <li>NLP and digitizing ancient texts (especially 1st-2nd century)</li>
-                <li>AmeriCorps alum</li>
-                <li>Zelda: Breath of the Wild enthusiast</li>
-              </ul>
+                <h2>{content.interests.title}</h2>
+                <ul>
+                  {content.interests.items.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
 
-              <p style={{ marginTop: '16px', borderTop: '1px solid #000', paddingTop: '12px' }}>
-                <strong>Contact:</strong> krugertom@outlook.com | github.com/krugertom
-              </p>
-            </ContentText>
+                <p style={{ marginTop: '16px', borderTop: '1px solid #000', paddingTop: '12px' }}>
+                  <strong>Contact:</strong> {content.contact.email} | github.com/{content.contact.github}
+                </p>
+              </ContentText>
+            ) : (
+              <ContentText>
+                <p style={{ textAlign: 'center', padding: '32px' }}>Failed to load content.</p>
+              </ContentText>
+            )}
           </StyledScrollView>
         </StyledGroupBox>
       </StyledWindowContent>
