@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
     Button,
-    ScrollView,
+    GroupBox,
     Table,
     TableBody,
     TableDataCell,
@@ -9,14 +9,19 @@ import {
     TableHeadCell,
     TableRow,
 } from 'react95';
+import styled from 'styled-components';
 import { localGameStorageService, type GameSession } from '@/services/localGameStorage.service';
 
 type T3TableProps = {
     onLoadGame: (session: GameSession) => void;
-    isMaximized?: boolean;
 };
 
-export const T3Table = ({ onLoadGame, isMaximized = false }: T3TableProps) => {
+const TableContainer = styled.div`
+    height: 100%;
+    overflow: auto;
+`;
+
+export const T3Table = ({ onLoadGame }: T3TableProps) => {
     const [sessions, setSessions] = useState<GameSession[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -67,57 +72,50 @@ export const T3Table = ({ onLoadGame, isMaximized = false }: T3TableProps) => {
         }
     };
 
-    if (loading) {
-        return <div style={{ padding: '16px', textAlign: 'center' }}>Loading games...</div>;
-    }
-
-    if (sessions.length === 0) {
-        return <div style={{ padding: '16px', textAlign: 'center' }}>No games found</div>;
-    }
-
     return (
-        <ScrollView
-            style={{
-                width: '100%',
-                height: isMaximized ? 'calc(100vh - 220px)' : '320px'
-            }}
-        >
-            <div>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableHeadCell>Time</TableHeadCell>
-                            <TableHeadCell>Turn</TableHeadCell>
-                            <TableHeadCell>Outcome</TableHeadCell>
-                            <TableHeadCell />
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {sessions.map((session) => (
-                            <TableRow key={session._id}>
-                                <TableDataCell>{formatDate(session.createdAt)}</TableDataCell>
-                                <TableDataCell>{session.currentPlayer}</TableDataCell>
-                                <TableDataCell>{getOutcome(session)}</TableDataCell>
-                                <TableDataCell style={{ textAlign: 'right' }}>
-                                    <Button
-                                        size="sm"
-                                        onClick={() => onLoadGame(session)}
-                                        style={{ marginRight: '4px' }}
-                                    >
-                                        Load
-                                    </Button>
-                                    <Button
-                                        size="sm"
-                                        onClick={() => handleDeleteGame(session._id)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </TableDataCell>
+        <TableContainer>
+            <GroupBox label='All Games'>
+                {loading ? (
+                    <div style={{ padding: '32px', textAlign: 'center' }}>Loading games...</div>
+                ) : sessions.length === 0 ? (
+                    <div style={{ padding: '32px', textAlign: 'center' }}>No games found</div>
+                ) : (
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableHeadCell>Time</TableHeadCell>
+                                <TableHeadCell>Turn</TableHeadCell>
+                                <TableHeadCell>Outcome</TableHeadCell>
+                                <TableHeadCell />
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </div>
-        </ScrollView>
+                        </TableHead>
+                        <TableBody>
+                            {sessions.map((session) => (
+                                <TableRow key={session._id}>
+                                    <TableDataCell>{formatDate(session.createdAt)}</TableDataCell>
+                                    <TableDataCell>{session.currentPlayer}</TableDataCell>
+                                    <TableDataCell>{getOutcome(session)}</TableDataCell>
+                                    <TableDataCell style={{ textAlign: 'right' }}>
+                                        <Button
+                                            size="sm"
+                                            onClick={() => onLoadGame(session)}
+                                            style={{ marginRight: '4px' }}
+                                        >
+                                            Load
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            onClick={() => handleDeleteGame(session._id)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </TableDataCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
+            </GroupBox>
+        </TableContainer>
     );
 };

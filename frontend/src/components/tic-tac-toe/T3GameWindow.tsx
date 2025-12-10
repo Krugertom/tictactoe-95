@@ -10,6 +10,7 @@ import {
   MenuListItem,
   Separator,
   Frame,
+  GroupBox,
 } from 'react95';
 import styled from 'styled-components';
 import { DesktopWindow } from '@/components/shared/DesktopWindow';
@@ -39,15 +40,16 @@ type SimpleGameWindowProps = {
 const GameContent = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 8px;
   height: 100%;
 `;
 
 const BoardWrapper = styled.div`
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 16px;
+  height: 100%;
 `;
 
 const StatusFrameWrapper = styled.div`
@@ -326,14 +328,16 @@ export const T3GameWindow = ({
         <TabBody style={tabBodyStyle}>
           {activeTab === 0 && (
             <GameContent>
-              <BoardWrapper>
-                <T3Board
-                  board={board}
-                  disabled={!!winner}
-                  onSelect={handleCellSelect}
-                  isMaximized={windowState.isMaximized}
-                />
-              </BoardWrapper>
+              <GroupBox label='Game Board' style={{ height: '100%' }}>
+                <BoardWrapper>
+                  <T3Board
+                    board={board}
+                    disabled={!!winner}
+                    onSelect={handleCellSelect}
+                    isMaximized={windowState.isMaximized}
+                  />
+                </BoardWrapper>
+              </GroupBox>
               <StatusFrameWrapper>
                 <StatusFrame variant='well'>{getStatusText()}</StatusFrame>
               </StatusFrameWrapper>
@@ -341,7 +345,7 @@ export const T3GameWindow = ({
           )}
           {activeTab === 1 && (
             <GameContent>
-              <T3Table onLoadGame={loadGame} isMaximized={windowState.isMaximized} />
+              <T3Table onLoadGame={loadGame} />
             </GameContent>
           )}
         </TabBody>
