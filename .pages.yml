@@ -42,8 +42,11 @@ content:
             default: "EXPERIENCE"
           - name: items
             label: Experience Items
-            type: text
-            list: true
+            type: string
+            required: true
+            list:
+              min: 1
+              default: [""]
       - name: interests
         label: Interests & Hobbies
         type: object
@@ -54,8 +57,11 @@ content:
             default: "INTERESTS & HOBBIES"
           - name: items
             label: Interest Items
-            type: text
-            list: true
+            type: string
+            required: true
+            list:
+              min: 1
+              default: [""]
       - name: contact
         label: Contact Information
         type: object
@@ -63,6 +69,9 @@ content:
           - name: email
             label: Email
             type: string
+            pattern:
+              regex: '^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$'
+              message: 'Must be a valid email address'
           - name: github
             label: GitHub Username
             type: string
