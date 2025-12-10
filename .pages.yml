@@ -1,3 +1,6 @@
+# Pages CMS Configuration for Tic-Tac-Toe 95
+# Edit this site's content at https://app.pagescms.org
+
 media:
   - name: icons
     label: Icons
@@ -20,17 +23,14 @@ content:
       - name: title
         label: Title
         type: string
-        required: true
         default: "Hi, I'm Tom Kruger!"
       - name: introduction
         label: Introduction
         type: text
-        required: true
         description: Opening paragraph about yourself
       - name: background
         label: Background
         type: text
-        required: true
         description: Professional background and clients
       - name: experience
         label: Experience
@@ -43,7 +43,8 @@ content:
           - name: items
             label: Experience Items
             type: string
-            list: true
+            list:
+              min: 1
       - name: interests
         label: Interests & Hobbies
         type: object
@@ -55,7 +56,21 @@ content:
           - name: items
             label: Interest Items
             type: string
-            list: true
+            list:
+              min: 1
+      - name: contact
+        label: Contact Information
+        type: object
+        fields:
+          - name: email
+            label: Email
+            type: string
+            pattern:
+              regex: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+              message: 'Must be a valid email address'
+          - name: github
+            label: GitHub Username
+            type: string
 
   - name: settings
     label: Site Settings
